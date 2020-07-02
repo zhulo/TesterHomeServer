@@ -17,7 +17,7 @@ from common.utils.service import DataBaseService
 
 log = Logger(__name__).log()
 
-username = "testerhome@qq.com"
+# username = "testerhome@qq.com"
 icc_host = 'http://test.mobile.icctoro.com:7007'
 ic_api_key = '5d0397f363784f47bd9d87a06c12679c'
 ic_secret_key = 'c55dd86200c043b0a16dc464b0d797cc'
@@ -60,19 +60,20 @@ class InitCoinOrder(object):
         resp = requests.get(end_point, headers=header)
         log.info(resp.json())
 
-    def get_user_id(self):
+    def get_user_id(self, username):
         sql = '''select id from icc_user.user_base_info where email = "{}"'''.format(username)
         user_id = DataBaseService(database_config).query(sql, True)
         return user_id['id']
 
-    def cancel_coin_order(self):
+    def cancel_coin_order(self, username):
         '''
         获取当前账户所有的未成交的卖出/买入委托订单；判断coin 冻结资金是否等于0
         status = 0 撮合中，即未成交
         side = 方向: 0-买 1-卖
         :return:
         '''
-        sql = "select id from icc_trade_coin.coin_orders where user_id = {} and status = 0".format(self.get_user_id())
+        sql = "select id from icc_trade_coin.coin_orders where user_id = {} and status = 0".format(
+            self.get_user_id(username))
         order_with_id_list = DataBaseService(database_config).query(sql, False)
         if len(order_with_id_list) > 0:
             for o in order_with_id_list:
@@ -83,7 +84,7 @@ class InitCoinOrder(object):
 
 
 if __name__ == '__main__':
-    InitCoinOrder().cancel_coin_order()
+    InitCoinOrder().cancel_coin_order("open0001@qq.com")
 
 
 class OpenApiTest(TaskSet):

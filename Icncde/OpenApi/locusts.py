@@ -23,7 +23,7 @@ best_bid = c.CurrencyInfo.best_bid
 
 class OpenApiTest(TaskSet):
     def taker_order_with_sell(self, account):
-        sell_value = round(random.uniform(best_ask, c.CurrencyInfo.best_bid), 2)
+        sell_value = round(random.uniform(c.CurrencyInfo.best_ask, c.CurrencyInfo.best_bid), 2)
         end_point = '/openapi/spot/v1/orders'
         params = {'instrument_Id': instrument_id, 'side': 'S', 'type': 'LIMIT', 'size': '0.01',
                   'price': str(sell_value)}
@@ -66,5 +66,5 @@ class OpenApiTest(TaskSet):
 class WebsiteUser(HttpUser):
     tasks = [OpenApiTest]
     min_wait = 100
-    max_wait = 10000
+    max_wait = 1000
     host = c.API_URL

@@ -5,8 +5,13 @@
 @Author  : tester
 @Software: PyCharm
 """
+import time
+
 import pymysql
 import requests
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
 
 from common.utils import consts as c
 from common.utils import utils as u
@@ -157,3 +162,24 @@ class Dictionary:
 
     def __call__(self):
         return self.test_value
+
+
+class UiService:
+
+    def __init__(self, driver):
+        self.driver = driver
+
+    def find_element(self, element, seconds):
+        wait = WebDriverWait(self.driver, seconds, 0.5)
+        return wait.until(expected_conditions.visibility_of_element_located((By.XPATH, element)))
+
+    def click(self, element, seconds=10):
+        self.find_element(element, seconds).click()
+
+    def input(self, element, value, seconds=10):
+        self.find_element(element, seconds).send_keys(value)
+
+    def refresh(self):
+        time.sleep(1)
+        self.driver.refresh()
+        time.sleep(2)

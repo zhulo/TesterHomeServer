@@ -11,17 +11,15 @@ from locust import TaskSet, task, HttpUser
 
 class OpenApiTest(TaskSet):
 
-    def taker_order_with_sell_01(self, test):
-        print(test)
+    # def taker_order_with_sell_01(self, test):
+    #     print(test)
 
     @task(1)
     def taker_order_with_sell_02(self):
-        self.taker_order_with_sell_01(11111111111111111111)
-        print('------------------------')
+        print('---------' * 20)
 
-    @task(1)
+    @task(10)
     def taker_order_with_sell_03(self):
-        self.taker_order_with_sell_01(22222222222222222)
         print('+++++++++++++++++++++++++++')
 
 
