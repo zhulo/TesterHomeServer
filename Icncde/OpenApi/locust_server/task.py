@@ -39,7 +39,7 @@ class CurrencyTrade(TaskSet):
             params = {'instrument_Id': currency_code, 'side': 'B', 'type': 'LIMIT', 'size': amount, 'price': str(price)}
         header, param = header_param_without_base_info("POST", open_api_order, params, use_server_time=False, **account)
         resp = self.client.post(open_api_order, headers=header, data=param)
-        assert str(resp.status_code) == '200'
+        # assert str(resp.status_code) == '200'
         if sell:
             print("用户: {}, 币对: {}, 卖出数量 {}, 卖出价格： {}, 接口返回： {}".format(account['email'], currency_code, amount, price,
                                                                        resp.json()))
