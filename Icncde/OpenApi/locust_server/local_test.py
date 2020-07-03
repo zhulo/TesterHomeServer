@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 """
-@File    : task.py
+@File    : local_test.py
 @Time    : 2020/7/2 16:46
 @Author  : tester
 @Software: PyCharm
@@ -47,68 +47,19 @@ class CurrencyTrade(TaskSet):
             print("用户: {},币对: {}, 卖出数量 {}, 买入价格： {}, 接口返回： {}".format(account['email'], currency_code, amount, price,
                                                                       resp.json()))
 
-    #
-    # def on_start(self):
-    #     for code in currency_code_list:
-    #         for account in account_list:
-    #             self.order_task(account, code, amount='10000')
-    #             self.order_task(account, code, sell=True, amount='10000')
-
     @task(1)
     def order_sell_01(self):
-        for code in currency_code_list:
-            self.order_task(account_list[0], code)
+        self.order_task(account_list[0], "DSSJ_USDT_ICNCDE_ENCRY")
 
     @task(1)
     def order_buy_01(self):
-        for code in currency_code_list:
-            self.order_task(account_list[0], code, False)
-
-    @task(1)
-    def order_sell_02(self):
-        for code in currency_code_list:
-            self.order_task(account_list[1], code)
-
-    @task(1)
-    def order_buy_02(self):
-        for code in currency_code_list:
-            self.order_task(account_list[1], code, False)
-
-    @task(1)
-    def order_sell_03(self):
-        for code in currency_code_list:
-            self.order_task(account_list[2], code)
-
-    @task(1)
-    def order_buy_03(self):
-        for code in currency_code_list:
-            self.order_task(account_list[2], code, False)
-
-    @task(1)
-    def order_sell_04(self):
-        for code in currency_code_list:
-            self.order_task(account_list[3], code)
-
-    @task(1)
-    def order_buy_04(self):
-        for code in currency_code_list:
-            self.order_task(account_list[3], code, False)
-
-    @task(1)
-    def order_sell_05(self):
-        for code in currency_code_list:
-            self.order_task(account_list[4], code)
-
-    @task(1)
-    def order_buy_05(self):
-        for code in currency_code_list:
-            self.order_task(account_list[4], code, False)
+        self.order_task(account_list[0], "DSSJ_USDT_ICNCDE_ENCRY", False)
 
 
 class WebsiteUser(HttpUser):
     tasks = [CurrencyTrade]
     min_wait = 100
     max_wait = 1000
-    host = c.API_URL
+    host = 'http://test.mobile.icctoro.com:7007'
 
-# no web 执行 locust -f Icncde\OpenApi\locust_server\task.py --headless -u 10 -r 10 -t 10s
+# no web 执行 locust -f Icncde\OpenApi\locust_server\open_api_task.py --headless -u 10 -r 10 -t 10s

@@ -17,17 +17,16 @@ from common.utils.service import DataBaseService
 
 log = Logger(__name__).log()
 
-# username = "testerhome@qq.com"
+username = "open0005@qq.com"
 icc_host = 'http://test.mobile.icctoro.com:7007'
 ic_api_key = '5d0397f363784f47bd9d87a06c12679c'
 ic_secret_key = 'c55dd86200c043b0a16dc464b0d797cc'
 ic_passphrase = 'a111111'
 
+open_user_001 = {"email": "open0005@qq.com", "passphrase": "a111111", "api_key": "eeab036f8ba6475692bb9a0a71155fc6",
+         "secret_key": "fe4351a91ceb44fda7b02098e0755498"}
 # api = OpenApi(ic_passphrase, ic_api_key, ic_secret_key)
 database_config = {"host": "10.10.23.99", "user": "dssj", "password": "dssj@DSSJ123"}
-
-open_user_001 = {"email": "testerhome@qq.com", "passphrase": 'a111111', "api_key": "5d0397f363784f47bd9d87a06c12679c",
-                 "secret_key": "c55dd86200c043b0a16dc464b0d797cc"}
 
 instrument_id = "DSSJ_USDT_ICNCDE_ENCRY"
 best_ask, best_bid = 5000, 10000
@@ -48,24 +47,24 @@ class InitCoinOrder(object):
         header, param_to_str = header_param_without_base_info("POST", end_point, params, use_server_time=False,
                                                               **open_user_001)
 
-        resp = requests.post(url=icc_host + end_point, headers=header, data=param_to_str)
+        resp = requests.post(url='http://test.mobile.icctoro.com:7007' + end_point, headers=header, data=param_to_str)
         log.info(resp.status_code)
         log.info(resp.text)
 
     def get_ticker(self):
-        instrument_id = "DSSJ_USDT_ICNCDE_ENCRY"
+        instrument_id = "TESTA_USDT_ICNCDE_ENCRY"
         end_point = '/openapi/spot/v1/instruments/' + str(instrument_id) + '/ticker'
         # header, params = api.header_with_params("GET", end_point, {}, use_server_time=False)
         header, params = header_param_without_base_info("GET", end_point, {}, use_server_time=False, **open_user_001)
         resp = requests.get(end_point, headers=header)
         log.info(resp.json())
 
-    def get_user_id(self, username):
+    def get_user_id(self):
         sql = '''select id from icc_user.user_base_info where email = "{}"'''.format(username)
         user_id = DataBaseService(database_config).query(sql, True)
         return user_id['id']
 
-    def cancel_coin_order(self, username):
+    def cancel_coin_order(self):
         '''
         获取当前账户所有的未成交的卖出/买入委托订单；判断coin 冻结资金是否等于0
         status = 0 撮合中，即未成交
@@ -73,7 +72,7 @@ class InitCoinOrder(object):
         :return:
         '''
         sql = "select id from icc_trade_coin.coin_orders where user_id = {} and status = 0".format(
-            self.get_user_id(username))
+            self.get_user_id())
         order_with_id_list = DataBaseService(database_config).query(sql, False)
         if len(order_with_id_list) > 0:
             for o in order_with_id_list:
@@ -81,10 +80,12 @@ class InitCoinOrder(object):
             log.info('---' * 100)
             log.info('---' * 100)
             log.info('---' * 100)
+        else:
+            return None
 
 
 if __name__ == '__main__':
-    InitCoinOrder().cancel_coin_order("open0001@qq.com")
+    InitCoinOrder().cancel_coin_order()
 
 
 class OpenApiTest(TaskSet):
