@@ -108,7 +108,7 @@ class Account:
 class ApiConfig:
     # host = "http://10.10.23.116:41008" # 内部测试环境
     # host = "http://58.33.9.130:41008" # 对外测试环境
-    host = "http://api.iccbank.net/v1"  # 线上域名
+    host = "http://api.iccbank.net"  # 线上域名
     headers = {"application": "json", "charset": "utf-8", "OPENAPI_APP_ID": Account.app_id}
 
 
