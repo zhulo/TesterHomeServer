@@ -65,12 +65,15 @@ class Api(object):
         response_dict = dict()
         try:
             if self.method.upper() == 'GET':
-                response = requests.get(url=self.url, headers=self.headers, params=self.params, cookies=self.cookies)
+                response = requests.get(url=self.url, headers=self.headers, params=self.params, cookies=self.cookies,
+                                        timeout=60)
             elif self.method.upper() == 'POST':
                 if self.param_type.upper() == 'DATA':
-                    response = requests.post(url=self.url, headers=self.headers, data=self.params, cookies=self.cookies)
+                    response = requests.post(url=self.url, headers=self.headers, data=self.params, cookies=self.cookies,
+                                             timeout=60)
                 elif self.param_type.upper() == 'JSON':
-                    response = requests.post(url=self.url, headers=self.headers, json=self.params, cookies=self.cookies)
+                    response = requests.post(url=self.url, headers=self.headers, json=self.params, cookies=self.cookies,
+                                             timeout=60)
                 else:
                     log.error('request param type({}) not supported !!!'.format(type(self.param_type)))
                     return None
