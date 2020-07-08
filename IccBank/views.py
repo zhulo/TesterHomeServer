@@ -61,10 +61,9 @@ def post_agentPay_proxyPay(request):
 
 def post_agentPay_query(request):
     if request.POST:
-        mchOrderNo = request.POST.get('mchOrderNo', 0)
-        businessNo = request.POST.get('businessNo', 0)
-        if mchOrderNo and businessNo:
-            content = WalletApi().agentPay_query(mchOrderNo, businessNo)
+        userBizId = request.POST.get('userBizId', 0)
+        if userBizId:
+            content = WalletApi().agentPay_query(userBizId)
             return HttpResponse(str(content))
         else:
             return HttpResponse("入参错误")

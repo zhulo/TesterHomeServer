@@ -18,6 +18,7 @@
 #     encrypt_token = "b2f7e45faf0347eea2efd26ba26c086c"
 #     private_key_pem = private_key_pem
 
+
 # # 20200703
 # private_key_pem = b"""
 # -----BEGIN RSA PRIVATE KEY-----
@@ -82,9 +83,9 @@
 #     private_key_pem = private_key_pem
 
 
-'''
-钱包线上商户信息
-'''
+# '''
+# 钱包线上商户信息
+# '''
 private_key_pem = b"""
 -----BEGIN RSA PRIVATE KEY-----
 MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAJqEI+YkurLWieUJGBWWgWrFmyqKVsjE1ZO9WQKX1+kp79uWXoCDi/NI8ryVYmzrMdy/ffSXJb1EnDPlRFMMRjLsQCT0G1cE6lwQOpk0QdyJXGIxgZ3lNRqp41JsZCkjXU4cZ6QtNwS47cfuJL5tqIQoU7gbvkeImo0PtQJIMRltAgMBAAECgYB9SRWenztulLwcpMINhwqKm41T8fWqNseCUm5gxuP/n8xnfUZE5+TLL+P5+xpifFXiyrYDY6brDz2kaop62CH2FhuVmu3IfIfwfbTb2Bbu2KTog4DaEy1LxTg+2x1A+GHFPkoJXVvPexkNLJQsAJ+IPuZjG2PatiCXIaBjv4+ktQJBANwywe1I0VwwN4myRbGWxV5xjIUv0JfuQEPCr5COC4bBCJI48XWuJAohHhUs+xxwrPkyM+qGlv5oQgaPXFYORssCQQCzo4SEDEhW+drPG3dTCcoacAoNamNSArk5B8DNjAfqTeu2HMJbjWICr1onC1Q9alf3AhikNTozlv99mWrEamGnAkA93NS2wTpwV+uCd980oVMZ0XTVBjXoOTs8zjlct0tttFWgHvdXRHFDl0JIWLbDqrQt3njPbriFCO1jwmsCkkg5AkBEoT4pbL/easqLwYSO9vh9rTxJ79FOLbgx76JbZRpJC8f35XjjnVpKiE+7BvsCE7TTq7taUPORbijiBVDjBXmVAkBPVLgxr6cG6aM7dNo/MiIWQ2VAKY30k3a5Wuq6fkckgkbeeAJOXUdXBBTD6L7OMolN52anbsH+jHVLeSseryVX
@@ -106,7 +107,7 @@ class Account:
 
 
 class ApiConfig:
-    # host = "http://10.10.23.116:41008" # 内部测试环境
+    # host = "http://10.10.23.116:41008"  # 内部测试环境
     # host = "http://58.33.9.130:41008" # 对外测试环境
     host = "http://api.iccbank.net"  # 线上域名
     headers = {"application": "json", "charset": "utf-8", "OPENAPI_APP_ID": Account.app_id}

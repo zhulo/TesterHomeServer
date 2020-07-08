@@ -33,7 +33,8 @@ class WalletApi:
         '''
         timestamp = int(time.time() * 1000)
         params = {"appId": Account.app_id, "currencyCode": currencyCode, "count": count,
-                  "timestamp": timestamp, "nonce": str(timestamp), "signType": "RSA"}
+                  "batchNumber": "batchNumber" + str(timestamp), "timestamp": timestamp, "nonce": str(timestamp),
+                  "signType": "RSA"}
         return API.request("/v1/address/agency/create", params, RespMsg.success_1)
 
     def check_address(self, currencyCode, address):
@@ -55,21 +56,16 @@ class WalletApi:
     def agentPay_proxyPay(self, currencyCode, address, amount, memo=""):
         '''代付接口'''
         timestamp = int(time.time() * 1000)
-        params = {"appId": Account.app_id, "mchOrderNo": "ID=" + str(timestamp), "subject": "test",
+        params = {"appId": Account.app_id, "userBizId": "ID=" + str(timestamp), "subject": "test",
                   "currencyCode": currencyCode, "address": address, "memo": memo,
                   "amount": amount, "notifyUrl": "", "timestamp": timestamp, "nonce": str(timestamp),
                   "signType": "RSA"}
         return API.request("/v1/agentPay/proxyPay", params, None)
 
-    def agentPay_query(self, mchOrderNo, businessNo):
-        '''
-        :param mchOrderNo: 商户订单号
-        :param businessNo: 平台订单号
-        :return:
-        '''
+    def agentPay_query(self, userBizId):
         timestamp = int(time.time() * 1000)
-        params = {"appId": Account.app_id, "mchOrderNo": mchOrderNo, "businessNo": businessNo,
-                  "timestamp": timestamp, "nonce": str(timestamp), "signType": "RSA"}
+        params = {"appId": Account.app_id, "userBizId": userBizId, "timestamp": timestamp, "nonce": str(timestamp),
+                  "signType": "RSA"}
         return API.request("/v1/agentPay/query", params, None)
 
 
@@ -86,9 +82,12 @@ class WalletData(WalletApi):
 
 if __name__ == '__main__':
     api = WalletApi()
-    # api.create_address("XMR", "3")
-    api.check_address("USDT_OMNI", "1Ekc3fReVNRj7nYiD8nKqYHuFJGWHQYoTZ")
-    # api.agentPay_proxyPay("IONC", "0x970838e989584a03c406f294d9bf58eb20b55d8d", "10")
+    # api.create_address("IONC", "10")
+    api.check_address("BTC", "15aNiDaxCcLJNijXmA1dUVLAW9xv4b8zwz")
+    # api.add_address("USDT_OMNI", "3FvsWRb1BgfadARzcAzMhU87VWaGcDj72H")
+    # api.agentPay_proxyPay("BCH", "38ABWBSPtAY8mrq4T9uXQSDXBaAxaEfYYH", "0.009")
+    # api.agentPay_proxyPay("XRP", "rUzWJkXyEtT8ekSSxkBYPqCvHpngcy6Fks", "1", '1014926') # 张利臻 XRP
+    # api.agentPay_proxyPay("USDT_OMNI", "3FvsWRb1BgfadARzcAzMhU87VWaGcDj72H", "1")
 
 # '''
 # {"code":200,"data":{"appId":"0984dc8154444bc198323c07bdee961e","appSecret":"MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAKzJsQfZh6Au17DOV/KOs8kxZhniUf0+o1AOJqbpD2RH+qqh27WPrt6UcAl3hBLLMUbHZEwDf6y7jrr12A1QDlqVFYsaEALBtlQSqXkimpIlqnrPijc4plhv/BJUwlSqA/NHdvzTWGCbvwSI7y9RLH+ncCtuXphEDYdOUwK664kNAgMBAAECgYBxkynAZSYXDnNMjnWUxGQ8zTG1teP6uF+U0ZhqgitR2VZVLotCrq1dNOjn8B1qVRGQ2qN8q5gSrD5Hei2HoqWrpFcXGUaVqwplLR5HHR+/j9Z5Qe9emVuKGffDjFrT3iBzjys/rtN8Di6f8q+Nf/5TLqsOn7OIkbBXHzVZH+VRwQJBANggwdGlbyyiYBIEoodINYYLdyPtkkrarSnuCU1Tm0+VdQqQafB4zoXpzS54INJPJeqZSSF5ccj13Nm0N2gZsmkCQQDMqhPu2YVw3+TKxUKmEqntwXOm/yKyMHv/E28izWnw7EEsQZxq+mog5Od5wB18W509rQca4V6AXTnzbEqGlwUFAkAzn69sCh4CBU75Ps4rjh3qxLZSiJ6W7qDKESd7purEGaj5OwFzBQgfiHcQEHWWhn1CChcjvcRmAgQcpCVP4kNxAkAiYG74r5C6ZOEJLhkDzB6+0L+cTT6Gr54kOh9wuRASZ5yK0npzfZxV6hz3Vk2dlcXTljybRz+YUBBr0sSx1qwBAkEA0hn4yRvTltoQzK3pm8Qz+YvpzFnCRbQ6VoKqoBmoDHMFJjKHG1LK+wnwOSMOsqGcunu56vHlh7ptPB6u99cnCw==","expireDate":"2020-07-23 10:06:06","encryptToken":"e0163c4c65704ac0b6ab1324e3e76ed4"},"msg":"HTTP_OK","subCode":"0","subMsg":"success"}
