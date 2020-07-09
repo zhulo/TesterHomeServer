@@ -83,10 +83,10 @@ class WalletData(WalletApi):
 if __name__ == '__main__':
     api = WalletApi()
     # api.create_address("IONC", "10")
-    api.check_address("BTC", "15aNiDaxCcLJNijXmA1dUVLAW9xv4b8zwz")
-    # api.add_address("USDT_OMNI", "3FvsWRb1BgfadARzcAzMhU87VWaGcDj72H")
+    # api.check_address("BTC", "15aNiDaxCcLJNijXmA1dUVLAW9xv4b8zwz")
+    # api.add_address("XRP", "rUzWJkXyEtT8ekSSxkBYPqCvHpngcy6Fks", "1014926")
     # api.agentPay_proxyPay("BCH", "38ABWBSPtAY8mrq4T9uXQSDXBaAxaEfYYH", "0.009")
-    # api.agentPay_proxyPay("XRP", "rUzWJkXyEtT8ekSSxkBYPqCvHpngcy6Fks", "1", '1014926') # 张利臻 XRP
+    api.agentPay_proxyPay("XRP", "rUzWJkXyEtT8ekSSxkBYPqCvHpngcy6Fks", "1", '1014926')
     # api.agentPay_proxyPay("USDT_OMNI", "3FvsWRb1BgfadARzcAzMhU87VWaGcDj72H", "1")
 
 # '''

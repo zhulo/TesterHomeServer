@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 """
-@File    : locusts.py
+@File    : locust_file.py
 @Time    : 2020/7/1 20:52
 @Author  : tester
 @Software: PyCharm

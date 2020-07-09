@@ -4,7 +4,7 @@ import logging
 import os
 import time
 
-from TesterHomeServer.settings import BASE_DIR
+from TesterHomeServer.settings import BASE_DIR, LOG_LEVEL
 
 day = time.strftime('%Y-%m-%d', time.localtime(time.time()))
 now = time.strftime('%Y-%m-%d-%H-%M', time.localtime(time.time()))
@@ -20,7 +20,7 @@ class Logger(object):
             5: logging.ERROR,
             6: logging.CRITICAL
         }
-        log_level = 2
+        log_level = LOG_LEVEL
         self.logger = logging.getLogger(logger)
         self.logger.setLevel(level_dict[log_level])
         log_path = '{}/logs/{}/'.format(BASE_DIR, day)
