@@ -70,37 +70,45 @@ class TradeCoinSetUpData:
             log.error("委托失败,终止测试,接口返回状态: {}, 参数: {}".format(resp.status_code, params))
             return False
 
-    def __many_code_trade_coin(self, headers, side, trade_type, price, amount):
+    def many_code_trade_coin(self, headers_list, initial_price, trade_highly):
+        '''
+        创建盘口深度
+        1.获取所有trade code
+        2.每个用户进行限价委托 买 和 卖， 买入的盘1价格 始终 小于卖1价格
+        :param headers_list:
+        :param initial_price:
+        :param trade_coin_num: 单个盘口的总委托数
+        :param trade_highly: 单个盘口的总委托数
+        :return:
+        '''
+        log.info("开始造数据，初始盘口默认值: %s" % str(initial_price))
+        best_ask = initial_price - 10  # 买入初始价  即卖出盘1
+        best_bid = initial_price + 10  # 卖出初始价  即卖出盘1
+        # 深度 trade highly
         for currency_code in c.TradeCoinList:
             currency_code = currency_code.strip()
-            if self.__trade_coin(headers, currency_code, side, trade_type, price, amount) is False:
-                return False
+            for highly in range(trade_highly):
+                #  单个用户需要委托的订单数
+                user_trade_request_times = int(200 / len(headers_list))
+                for headers in headers_list:
+                    if self.set_coin_trade_entrust_amount(user_trade_request_times, headers, currency_code, best_ask,
+                                                          best_bid) is False:
+                        return False
+                best_ask -= 1
+                best_bid += 1
 
-    def many_users_trade_coin(self, headers_list, side, trade_type, price, amount):
-        for header in headers_list:
-            if self.__many_code_trade_coin(header, side, trade_type, price, amount) is False:
+    def set_coin_trade_entrust_amount(self, num, headers, currency_code, best_ask, best_bid):
+        '''
+        :param num:  单个盘口委托的总量
+        :param headers:
+        :param currency_code:
+        :param best_ask:
+        :param best_bid:
+        :return:
+        '''
+        for i in range(num):
+            if self.__trade_coin(headers, currency_code, 'B', 'LIMIT', best_ask, 1) is False:
                 return False
-
-    # def trade_coin_setup_data(self, end_point, headers, currency_code_list, amount, side, price):
-    #     '''
-    #
-    #     :param end_point: end_point
-    #     :param headers:
-    #     :param currency_code_list:
-    #     :param amount: 数量
-    #     :param side: 买 B 或 卖 S
-    #     :param price: 价格
-    #     :return:
-    #     '''
-    #     for currency_code in currency_code_list:
-    #         currency_code = currency_code.strip()
-    #         params = {"code": currency_code, "source": "PC", "side": side, "type": "LIMIT", "price": price,
-    #                   "qty": amount, "accountType": "1004", "autoBorrow": "false"}
-    #         resp = requests.post(url=self.url + end_point, headers=headers, data=params)
-    #         if str(resp.status_code) == '200' and resp.json():
-    #             log.info(
-    #                 'code: {}, side: {}, price: {}, amount: {}, response: {}'.format(currency_code, side, price, amount,
-    #                                                                                  resp.json()))
-    #         else:
-    #             log.error("委托失败,终止测试,接口返回状态: {}, 参数: {}".format(resp.status_code, params))
-    #             return False
+            # 卖出
+            if self.__trade_coin(headers, currency_code, 'S', 'LIMIT', best_bid, 1) is False:
+                return False

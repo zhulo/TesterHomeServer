@@ -21,7 +21,8 @@ class HttpTradeCoin(TaskSet):
     def on_test_start(**kwargs):
         users_headers = get_access_token_with_headers_list(c.HOST, c.EmailLoginAPI, c.Headers, c.UsernameList,
                                                            c.Password)
-        if setup_trade_coin_data.many_users_trade_coin(users_headers, 'B', 'LIMIT', 500, 1) is False:  # 加上卖 金额在某个范围内要递增
+        #  买入的金额 小于 卖出的金额，造数据
+        if setup_trade_coin_data.many_code_trade_coin(users_headers, 500, 20) is False:
             exit()
 
 
