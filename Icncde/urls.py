@@ -7,6 +7,8 @@
 """
 from django.urls import path
 from . import views
+from Icncde import views
 
 urlpatterns = [
+    path('get_access_token', views.post_email_access_token),
 ]

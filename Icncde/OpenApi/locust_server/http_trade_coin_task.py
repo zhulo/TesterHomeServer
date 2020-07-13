@@ -26,7 +26,11 @@ class HttpTradeCoin(TaskSet):
 
     @events.test_start.add_listener
     def on_test_start(**kwargs):
-        param = {"loginName": "open0001@qq.com", "password": "6846860684f05029abccc09a53cd66f1",
+        password = '111111'
+        from IccBank.wallet.monitor import str_to_md5
+
+        password = str_to_md5(password)
+        param = {"loginName": "t1@163.com", "password": password,
                  "validCodeType": "email", "deviceName": "web", "resolution": "1920x1080", "softwareVersion": "1.0.0",
                  "deviceVersion": ""}
         resp = requests.post(url=host + api_login, headers=headers, data=param)
@@ -48,368 +52,368 @@ class HttpTradeCoin(TaskSet):
 
     @task
     def trade_coin_buy_TESTA(self):
-        currency_code = "TESTA_USDT_ICNCDE_ENCRY"
+        currency_code = "XMR_USDT_ICNCDE_ENCRY"
         _price = random.uniform(best_ask, best_bid)  # 卖出的价格
         amount = str(random.uniform(1, 10))
         self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
 
     @task
     def trade_coin_sell_TESTA(self):
-        currency_code = "TESTA_USDT_ICNCDE_ENCRY"
+        currency_code = "XRP_USDT_ICNCDE_ENCRY"
         _price = random.uniform(best_ask, best_bid)  # 卖出的价格
         amount = str(random.uniform(1, 10))
         self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
 
     @task
     def trade_coin_buy_TESTB(self):
-        currency_code = "TESTB_USDT_ICNCDE_ENCRY"
+        currency_code = "IONC_USDT_ICNCDE_ENCRY"
         _price = random.uniform(best_ask, best_bid)  # 卖出的价格
         amount = str(random.uniform(1, 10))
         self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
 
-    @task
-    def trade_coin_sell_TESTB(self):
-        currency_code = "TESTB_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_buy_TESTC(self):
-        currency_code = "TESTC_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_sell_TESTC(self):
-        currency_code = "TESTC_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_buy_TESTD(self):
-        currency_code = "TESTD_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_sell_TESTD(self):
-        currency_code = "TESTD_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_buy_TESTE(self):
-        currency_code = "TESTE_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_sell_TESTE(self):
-        currency_code = "TESTE_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_buy_TESTF(self):
-        currency_code = "TESTF_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_sell_TESTF(self):
-        currency_code = "TESTF_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_buy_TESTG(self):
-        currency_code = "TESTG_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_sell_TESTG(self):
-        currency_code = "TESTG_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_buy_TESTH(self):
-        currency_code = "TESTH_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_sell_TESTH(self):
-        currency_code = "TESTH_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_buy_TESTI(self):
-        currency_code = "TESTI_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_sell_TESTI(self):
-        currency_code = "TESTI_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_buy_TESTJ(self):
-        currency_code = "TESTJ_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_sell_TESTJ(self):
-        currency_code = "TESTJ_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_buy_TESTK(self):
-        currency_code = "TESTK_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_sell_TESTK(self):
-        currency_code = "TESTK_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_buy_TESTL(self):
-        currency_code = "TESTL_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_sell_TESTL(self):
-        currency_code = "TESTL_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_buy_TESTM(self):
-        currency_code = "TESTM_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_sell_TESTM(self):
-        currency_code = "TESTM_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_buy_TESTN(self):
-        currency_code = "TESTN_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_sell_TESTN(self):
-        currency_code = "TESTN_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_buy_TESTO(self):
-        currency_code = "TESTO_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_sell_TESTO(self):
-        currency_code = "TESTO_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_buy_TESTP(self):
-        currency_code = "TESTP_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_sell_TESTP(self):
-        currency_code = "TESTP_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
-
-    # ==============
-    @task
-    def trade_coin_buy_TESTQ(self):
-        currency_code = "TESTQ_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_sell_TESTQ(self):
-        currency_code = "TESTQ_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_buy_TESTR(self):
-        currency_code = "TESTR_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_sell_TESTR(self):
-        currency_code = "TESTR_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_buy_TESTS(self):
-        currency_code = "TESTS_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_sell_TESTS(self):
-        currency_code = "TESTS_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_buy_TESTT(self):
-        currency_code = "TESTT_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_sell_TESTT(self):
-        currency_code = "TESTT_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_buy_TESTU(self):
-        currency_code = "TESTU_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_sell_TESTU(self):
-        currency_code = "TESTU_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_buy_TESTV(self):
-        currency_code = "TESTV_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_sell_TESTV(self):
-        currency_code = "TESTV_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_buy_TESTW(self):
-        currency_code = "TESTW_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_sell_TESTW(self):
-        currency_code = "TESTW_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_buy_TESTX(self):
-        currency_code = "TESTX_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_sell_TESTX(self):
-        currency_code = "TESTX_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_buy_TESTY(self):
-        currency_code = "TESTY_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_sell_TESTY(self):
-        currency_code = "TESTY_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_buy_TESTZ(self):
-        currency_code = "TESTZ_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
-
-    @task
-    def trade_coin_sell_TESTZ(self):
-        currency_code = "TESTZ_USDT_ICNCDE_ENCRY"
-        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
-        amount = str(random.uniform(1, 10))
-        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
+    # @task
+    # def trade_coin_sell_TESTB(self):
+    #     currency_code = "TESTB_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_buy_TESTC(self):
+    #     currency_code = "TESTC_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_sell_TESTC(self):
+    #     currency_code = "TESTC_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_buy_TESTD(self):
+    #     currency_code = "TESTD_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_sell_TESTD(self):
+    #     currency_code = "TESTD_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_buy_TESTE(self):
+    #     currency_code = "TESTE_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_sell_TESTE(self):
+    #     currency_code = "TESTE_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_buy_TESTF(self):
+    #     currency_code = "TESTF_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_sell_TESTF(self):
+    #     currency_code = "TESTF_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_buy_TESTG(self):
+    #     currency_code = "TESTG_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_sell_TESTG(self):
+    #     currency_code = "TESTG_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_buy_TESTH(self):
+    #     currency_code = "TESTH_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_sell_TESTH(self):
+    #     currency_code = "TESTH_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_buy_TESTI(self):
+    #     currency_code = "TESTI_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_sell_TESTI(self):
+    #     currency_code = "TESTI_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_buy_TESTJ(self):
+    #     currency_code = "TESTJ_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_sell_TESTJ(self):
+    #     currency_code = "TESTJ_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_buy_TESTK(self):
+    #     currency_code = "TESTK_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_sell_TESTK(self):
+    #     currency_code = "TESTK_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_buy_TESTL(self):
+    #     currency_code = "TESTL_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_sell_TESTL(self):
+    #     currency_code = "TESTL_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_buy_TESTM(self):
+    #     currency_code = "TESTM_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_sell_TESTM(self):
+    #     currency_code = "TESTM_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_buy_TESTN(self):
+    #     currency_code = "TESTN_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_sell_TESTN(self):
+    #     currency_code = "TESTN_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_buy_TESTO(self):
+    #     currency_code = "TESTO_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_sell_TESTO(self):
+    #     currency_code = "TESTO_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_buy_TESTP(self):
+    #     currency_code = "TESTP_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_sell_TESTP(self):
+    #     currency_code = "TESTP_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
+    #
+    # # ==============
+    # @task
+    # def trade_coin_buy_TESTQ(self):
+    #     currency_code = "TESTQ_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_sell_TESTQ(self):
+    #     currency_code = "TESTQ_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_buy_TESTR(self):
+    #     currency_code = "TESTR_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_sell_TESTR(self):
+    #     currency_code = "TESTR_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_buy_TESTS(self):
+    #     currency_code = "TESTS_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_sell_TESTS(self):
+    #     currency_code = "TESTS_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_buy_TESTT(self):
+    #     currency_code = "TESTT_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_sell_TESTT(self):
+    #     currency_code = "TESTT_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_buy_TESTU(self):
+    #     currency_code = "TESTU_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_sell_TESTU(self):
+    #     currency_code = "TESTU_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_buy_TESTV(self):
+    #     currency_code = "TESTV_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_sell_TESTV(self):
+    #     currency_code = "TESTV_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_buy_TESTW(self):
+    #     currency_code = "TESTW_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_sell_TESTW(self):
+    #     currency_code = "TESTW_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_buy_TESTX(self):
+    #     currency_code = "TESTX_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_sell_TESTX(self):
+    #     currency_code = "TESTX_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_buy_TESTY(self):
+    #     currency_code = "TESTY_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_sell_TESTY(self):
+    #     currency_code = "TESTY_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_buy_TESTZ(self):
+    #     currency_code = "TESTZ_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
+    #
+    # @task
+    # def trade_coin_sell_TESTZ(self):
+    #     currency_code = "TESTZ_USDT_ICNCDE_ENCRY"
+    #     _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+    #     amount = str(random.uniform(1, 10))
+    #     self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
 
 
 class WebsiteUser(HttpUser):

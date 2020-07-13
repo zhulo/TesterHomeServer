@@ -12,7 +12,7 @@ from common.utils.logger import Logger
 log = Logger(__name__).log()
 
 
-def str_md5(value: str):
+def str_to_md5(value: str):
     m = hashlib.md5()
     b = value.encode(encoding='utf-8')
     m.update(b)

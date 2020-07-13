@@ -1,0 +1,5 @@
+
+# 造数据 币币推送的机器人地址  机器人：
+headers:
+  Content-Type : 'application/json'
+trade_coin: "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=0e9d3511-6a49-45ad-afa2-b624d1d9555a"

@@ -16,6 +16,11 @@ Headers = {"Accept": "application/json", "Content-Language": "zh-cn", "Source-Si
            "Content-Type": "application/x-www-form-urlencoded", "Authorization": ""}
 
 UsernameList = ['open0001@qq.com', 'open0002@qq.com', 'open0003@qq.com', 'open0004@qq.com', 'open0005@qq.com']
+# 1045571974178123776
+# 1045572121007005696
+# 1045572218784620544
+# 1045572306604957696
+# 1045572397119156224
 
 BestAsk = 200
 BestBid = 500
