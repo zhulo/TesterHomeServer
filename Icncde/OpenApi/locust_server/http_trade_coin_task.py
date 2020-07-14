@@ -51,25 +51,46 @@ class HttpTradeCoin(TaskSet):
             print("Error resp.status_code: {}".format(resp.status_code))
 
     @task
-    def trade_coin_buy_TESTA(self):
+    def trade_coin_buy_XMR(self):
         currency_code = "XMR_USDT_ICNCDE_ENCRY"
         _price = random.uniform(best_ask, best_bid)  # 卖出的价格
         amount = str(random.uniform(1, 10))
         self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
 
     @task
-    def trade_coin_sell_TESTA(self):
+    def trade_coin_sell_XMR(self):
+        currency_code = "XMR_USDT_ICNCDE_ENCRY"
+        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+        amount = str(random.uniform(1, 10))
+        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
+
+    @task
+    def trade_coin_buy_XRP(self):
+        currency_code = "XRP_USDT_ICNCDE_ENCRY"
+        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+        amount = str(random.uniform(1, 10))
+        self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
+
+    @task
+    def trade_coin_sell_XRP(self):
         currency_code = "XRP_USDT_ICNCDE_ENCRY"
         _price = random.uniform(best_ask, best_bid)  # 卖出的价格
         amount = str(random.uniform(1, 10))
         self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
 
     @task
-    def trade_coin_buy_TESTB(self):
+    def trade_coin_buy_IONC(self):
         currency_code = "IONC_USDT_ICNCDE_ENCRY"
         _price = random.uniform(best_ask, best_bid)  # 卖出的价格
         amount = str(random.uniform(1, 10))
         self.trade_coin(currency_code, 'B', str(round(_price, 2)), amount)
+
+    @task
+    def trade_coin_sell_IONC(self):
+        currency_code = "IONC_USDT_ICNCDE_ENCRY"
+        _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+        amount = str(random.uniform(1, 10))
+        self.trade_coin(currency_code, 'S', str(round(_price, 2)), amount)
 
     # @task
     # def trade_coin_sell_TESTB(self):
