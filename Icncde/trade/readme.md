@@ -1,3 +1,5 @@
+
+### 初始化币币相关数据
 - 脚本币币数据初始化
 ```
 多个用户多个币种随机创建N个盘口信息（卖盘1 > 买盘1）， N自定义，等到盘口到达一定高度、深度后在生成新的委托订单进行撮合
@@ -83,4 +85,16 @@ supervisorctl restart icc-match-app-service
 
 -- 查看状态
 supervisorctl status
+```
+
+
+### 修改币币相关数据
+- 准备账号以及充币
+```sql
+-- 共52个币对，5个用户
+SELECT * FROM icc_trade_coin.coin_capital_detail WHERE user_id = 1045571974178123776 and currency like '%TEST%';
+SELECT * FROM icc_trade_coin.coin_capital_detail WHERE user_id = 1045572121007005696 and currency like '%TEST%';
+SELECT * FROM icc_trade_coin.coin_capital_detail WHERE user_id = 1045572218784620544 and currency like '%TEST%';
+SELECT * FROM icc_trade_coin.coin_capital_detail WHERE user_id = 1045572306604957696 and currency like '%TEST%';
+SELECT * FROM icc_trade_coin.coin_capital_detail WHERE user_id = 1045572397119156224 and currency like '%TEST%';
 ```
