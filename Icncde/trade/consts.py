@@ -30,7 +30,7 @@ BestBid = 500
 
 def load_trade_coin_list():
     from TesterHomeServer.settings import BASE_DIR
-    file_path = BASE_DIR + r'\Icncde\trade\trade_coin_info.txt'
+    file_path = BASE_DIR + r'/Icncde/trade/trade_coin_info.txt'
     with open(file_path, "r") as f:
         data = f.readlines()
         return data
