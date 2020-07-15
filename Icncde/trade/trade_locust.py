@@ -17,8 +17,8 @@ from Icncde.trade.trade_server import TradeCoinSetUpData, get_access_token_with_
 
 setup_trade_coin_data = TradeCoinSetUpData(c.HOST)
 code_list = c.TradeCoinList
-best_ask = 0
-best_bid = 1000
+best_ask = 350
+best_bid = 650
 headers_list = get_access_token_with_headers_list(c.HOST, c.EmailLoginAPI, c.Headers, c.UsernameList,
                                                   c.Password)
 
@@ -41,7 +41,7 @@ class HttpTradeCoin(TaskSet):
         for i in range(len(headers_list)):
             # print(headers_list[i])
             t = threading.Thread(target=TradeCoinSetUpData(c.HOST).one_headers_trade_coin,
-                                 args=(headers_list[i], 500, 5, len(headers_list), 20, 1))
+                                 args=(headers_list[i], 500, 20, len(headers_list), 50, 1))
             tasks.append(t)
             t.start()
 
@@ -627,6 +627,27 @@ class HttpTradeCoin(TaskSet):
             amount = str(random.uniform(1, 10))
             self.trade_coin(headers, currency_code, 'S', str(round(_price, 2)), amount)
 
+    @task
+    def trade_coin_eth_ATEST(self):
+        for headers in headers_list:
+            currency_code = "ATEST_ETH_ICNCDE_ENCRY"
+            _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+            amount = str(random.uniform(1, 10))
+            self.trade_coin(headers, currency_code, 'B', str(round(_price, 2)), amount)
+            _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+            amount = str(random.uniform(1, 10))
+            self.trade_coin(headers, currency_code, 'S', str(round(_price, 2)), amount)
+
+    @task
+    def trade_coin_eth_TESTA(self):
+        for headers in headers_list:
+            currency_code = "TESTA_ETH_ICNCDE_ENCRY"
+            _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+            amount = str(random.uniform(1, 10))
+            self.trade_coin(headers, currency_code, 'B', str(round(_price, 2)), amount)
+            _price = random.uniform(best_ask, best_bid)  # 卖出的价格
+            amount = str(random.uniform(1, 10))
+            self.trade_coin(headers, currency_code, 'S', str(round(_price, 2)), amount)
 
 class WebsiteUser(HttpUser):
     tasks = [HttpTradeCoin]
