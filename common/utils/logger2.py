@@ -33,7 +33,7 @@ class Logger(object):
             log_name = os.path.join(log_path + now + '.txt')
 
         # fh = logging.FileHandler(log_name, encoding='utf-8')
-        fh = RotatingFileHandler(log_name, maxBytes=1024000 * 10, backupCount=300, encoding='utf-8')
+        fh = RotatingFileHandler(log_name, maxBytes=1024000 * 10, backupCount=300,encoding='utf-8')
         fh.setLevel(level_dict[log_level])
         ch = logging.StreamHandler()
         ch.setLevel(level_dict[log_level])
