@@ -45,46 +45,90 @@ class HttpTradeCoin(TaskSet):
             tasks.append(t)
             t.start()
 
-    def trade_coin(self, currency_code):
-        '''
-        限价买入 卖出
-        :param headers:
-        :param currency_code:
-        :param side:
-        :param price:
-        :param amount:
-        :return:
-        '''
-        for headers in headers_list:
-            amount = str(random.uniform(1, 10))
-            buy_price = random.uniform(best_ask, best_bid)
-            buy_params = {"code": currency_code, "source": "PC", "side": 'B', "type": "LIMIT", "price": buy_price,
-                          "qty": amount, "accountType": "1004", "autoBorrow": "false"}
-            buy_response = self.client.post(c.CoinEntrustAPI, headers=headers, data=buy_params)
-            if str(buy_response.status_code) == '200' and buy_response.json():
-                print('用户 {} 限价委托 买入 , response={} '.format(headers['user'], buy_response.json()))
+    # def trade_coin(self, currency_code):
+    #     '''
+    #     限价买入 卖出
+    #     :param headers:
+    #     :param currency_code:
+    #     :param side:
+    #     :param price:
+    #     :param amount:
+    #     :return:
+    #     '''
+    #     for headers in headers_list:
+    #         amount = str(random.uniform(1, 10))
+    #         buy_price = random.uniform(best_ask, best_bid)
+    #         buy_params = {"code": currency_code, "source": "PC", "side": 'B', "type": "LIMIT", "price": buy_price,
+    #                       "qty": amount, "accountType": "1004", "autoBorrow": "false"}
+    #         buy_response = self.client.post(c.CoinEntrustAPI, headers=headers, data=buy_params)
+    #         if str(buy_response.status_code) == '200' and buy_response.json():
+    #             print('用户 {} 限价委托 买入 , response={} '.format(headers['user'], buy_response.json()))
+    #
+    #         sell_price = random.uniform(best_ask, best_bid)
+    #         sell_params = {"code": currency_code, "source": "PC", "side": 'S', "type": "LIMIT", "price": sell_price,
+    #                        "qty": amount, "accountType": "1004", "autoBorrow": "false"}
+    #         sell_response = self.client.post(c.CoinEntrustAPI, headers=headers, data=sell_params)
+    #         if str(sell_response.status_code) == '200' and sell_response.json():
+    #             print('用户 {} 限价委托 买入 , response={} '.format(headers['user'], sell_response.json()))
+    #     self.trade_coin_market(currency_code)
 
-            sell_price = random.uniform(best_ask, best_bid)
-            sell_params = {"code": currency_code, "source": "PC", "side": 'S', "type": "LIMIT", "price": sell_price,
-                           "qty": amount, "accountType": "1004", "autoBorrow": "false"}
-            sell_response = self.client.post(c.CoinEntrustAPI, headers=headers, data=sell_params)
-            if str(sell_response.status_code) == '200' and sell_response.json():
-                print('用户 {} 限价委托 买入 , response={} '.format(headers['user'], sell_response.json()))
-        self.trade_coin_market(currency_code)
+    # def trade_coin_market(self, currency_code):
+    #     headers = headers_list[random.randint(0, len(headers_list) - 1)]
+    #     buy_params = {"code": currency_code, "source": "PC", "side": 'B', "type": "MARKET",
+    #                   "qty": '20000', "accountType": "1004", "autoBorrow": "false"}
+    #     buy_resp = self.client.post(c.CoinEntrustAPI, headers=headers, data=buy_params)
+    #     if str(buy_resp.status_code) == '200' and buy_resp.json():
+    #         print('用户 {}市价委托 买入, resp={} '.format(headers['user'], buy_resp.json()))
+    #
+    #     sell_params = {"code": currency_code, "source": "PC", "side": 'S', "type": "MARKET",
+    #                    "qty": '20000', "accountType": "1004", "autoBorrow": "false"}
+    #     sell_resp = self.client.post(c.CoinEntrustAPI, headers=headers, data=sell_params)
+    #     if str(sell_resp.status_code) == '200' and sell_resp.json():
+    #         print('用户 {} 市价委托 卖出, resp={} '.format(headers['user'], sell_resp.json()))
+
+    def trade_coin_transaction(self, headers, currency_code, side, operate_type, amount, price=None):
+        # headers = headers_list[random.randint(0, len(headers_list) - 1)]
+        side_text = "委托买入" if operate_type == 'B' else "委托卖出"
+        operate_type_text = "市价" if operate_type == 'MARKET' else "限价"
+
+        if price is None:
+            params = {"code": currency_code, "source": "PC", "side": side, "type": operate_type, "qty": amount,
+                      "accountType": "1004", "autoBorrow": "false"}
+        else:
+            params = {"code": currency_code, "source": "PC", "side": side, "type": operate_type, "price": price,
+                      "qty": amount, "accountType": "1004", "autoBorrow": "false"}
+        with self.client.post(c.CoinEntrustAPI, headers=headers, data=params, catch_response=True) as response:
+            if str(response.status_code) == '200':
+                try:
+                    resp = response.json()
+                    if resp['code'] == '200':
+                        print('Pass! {}-{}-{}-{}-{}-{},resp:{} '.format(headers['user'], currency_code, side_text,
+                                                                        operate_type_text, amount, price, resp))
+                    else:
+                        response.failure(
+                            'Fail! {}-{}-{}-{}-{}-{},resp:{} '.format(headers['user'], currency_code, side_text,
+                                                                      operate_type_text, amount, price, resp))
+                except Exception as e:
+                    response.failure('Fail! 获取 response.json() 异常，error_msg: {}'.format(e))
+            else:
+                response.failure('Fail! 请求接口失败，返回状态: {}'.format(response.status_code))
 
     def trade_coin_market(self, currency_code):
-        headers = headers_list[random.randint(0, len(headers_list) - 1)]
-        buy_params = {"code": currency_code, "source": "PC", "side": 'B', "type": "MARKET",
-                      "qty": '20000', "accountType": "1004", "autoBorrow": "false"}
-        buy_resp = self.client.post(c.CoinEntrustAPI, headers=headers, data=buy_params)
-        if str(buy_resp.status_code) == '200' and buy_resp.json():
-            print('用户 {}市价委托 买入, resp={} '.format(headers['user'], buy_resp.json()))
+        if random.randint(0, 100) > 80:
+            headers = headers_list[random.randint(0, len(headers_list) - 1)]
+            self.trade_coin_transaction(headers, currency_code, 'B', 'MARKET', '20000')
+            self.trade_coin_transaction(headers, currency_code, 'S', 'MARKET', '20000')
 
-        sell_params = {"code": currency_code, "source": "PC", "side": 'S', "type": "MARKET",
-                       "qty": '20000', "accountType": "1004", "autoBorrow": "false"}
-        sell_resp = self.client.post(c.CoinEntrustAPI, headers=headers, data=sell_params)
-        if str(sell_resp.status_code) == '200' and sell_resp.json():
-            print('用户 {} 市价委托 卖出, resp={} '.format(headers['user'], sell_resp.json()))
+    def trade_coin_limit(self, currency_code):
+        for headers in headers_list:
+            amount, price = str(random.uniform(1, 10)), random.uniform(best_ask, best_bid)
+            self.trade_coin_transaction(headers, currency_code, 'B', 'LIMIT', amount, price)
+            amount, price = str(random.uniform(1, 10)), random.uniform(best_ask, best_bid)
+            self.trade_coin_transaction(headers, currency_code, 'S', 'LIMIT', amount, price)
+
+    def trade_coin(self, currency_code):
+        self.trade_coin_limit(currency_code)
+        self.trade_coin_market(currency_code)
 
     @task
     def trade_coin_buy_TESTA(self):
@@ -161,60 +205,61 @@ class HttpTradeCoin(TaskSet):
         currency_code = "TESTO_USDT_ICNCDE_ENCRY"
         self.trade_coin(currency_code)
 
-    @task
-    def trade_coin_buy_TESTP(self):
-        currency_code = "TESTP_USDT_ICNCDE_ENCRY"
-        self.trade_coin(currency_code)
-
-    @task
-    def trade_coin_buy_TESTQ(self):
-        currency_code = "TESTQ_USDT_ICNCDE_ENCRY"
-        self.trade_coin(currency_code)
-
-    @task
-    def trade_coin_buy_TESTR(self):
-        currency_code = "TESTR_USDT_ICNCDE_ENCRY"
-        self.trade_coin(currency_code)
-
-    @task
-    def trade_coin_buy_TESTS(self):
-        currency_code = "TESTS_USDT_ICNCDE_ENCRY"
-        self.trade_coin(currency_code)
-
-    @task
-    def trade_coin_buy_TESTT(self):
-        currency_code = "TESTT_USDT_ICNCDE_ENCRY"
-        self.trade_coin(currency_code)
-
-    @task
-    def trade_coin_buy_TESTU(self):
-        currency_code = "TESTU_USDT_ICNCDE_ENCRY"
-        self.trade_coin(currency_code)
-
-    @task
-    def trade_coin_buy_TESTV(self):
-        currency_code = "TESTV_USDT_ICNCDE_ENCRY"
-        self.trade_coin(currency_code)
-
-    @task
-    def trade_coin_buy_TESTW(self):
-        currency_code = "TESTW_USDT_ICNCDE_ENCRY"
-        self.trade_coin(currency_code)
-
-    @task
-    def trade_coin_buy_TESTX(self):
-        currency_code = "TESTX_USDT_ICNCDE_ENCRY"
-        self.trade_coin(currency_code)
-
-    @task
-    def trade_coin_buy_TESTY(self):
-        currency_code = "TESTY_USDT_ICNCDE_ENCRY"
-        self.trade_coin(currency_code)
-
-    @task
-    def trade_coin_buy_TESTZ(self):
-        currency_code = "TESTZ_USDT_ICNCDE_ENCRY"
-        self.trade_coin(currency_code)
+    #
+    # @task
+    # def trade_coin_buy_TESTP(self):
+    #     currency_code = "TESTP_USDT_ICNCDE_ENCRY"
+    #     self.trade_coin(currency_code)
+    #
+    # @task
+    # def trade_coin_buy_TESTQ(self):
+    #     currency_code = "TESTQ_USDT_ICNCDE_ENCRY"
+    #     self.trade_coin(currency_code)
+    #
+    # @task
+    # def trade_coin_buy_TESTR(self):
+    #     currency_code = "TESTR_USDT_ICNCDE_ENCRY"
+    #     self.trade_coin(currency_code)
+    #
+    # @task
+    # def trade_coin_buy_TESTS(self):
+    #     currency_code = "TESTS_USDT_ICNCDE_ENCRY"
+    #     self.trade_coin(currency_code)
+    #
+    # @task
+    # def trade_coin_buy_TESTT(self):
+    #     currency_code = "TESTT_USDT_ICNCDE_ENCRY"
+    #     self.trade_coin(currency_code)
+    #
+    # @task
+    # def trade_coin_buy_TESTU(self):
+    #     currency_code = "TESTU_USDT_ICNCDE_ENCRY"
+    #     self.trade_coin(currency_code)
+    #
+    # @task
+    # def trade_coin_buy_TESTV(self):
+    #     currency_code = "TESTV_USDT_ICNCDE_ENCRY"
+    #     self.trade_coin(currency_code)
+    #
+    # @task
+    # def trade_coin_buy_TESTW(self):
+    #     currency_code = "TESTW_USDT_ICNCDE_ENCRY"
+    #     self.trade_coin(currency_code)
+    #
+    # @task
+    # def trade_coin_buy_TESTX(self):
+    #     currency_code = "TESTX_USDT_ICNCDE_ENCRY"
+    #     self.trade_coin(currency_code)
+    #
+    # @task
+    # def trade_coin_buy_TESTY(self):
+    #     currency_code = "TESTY_USDT_ICNCDE_ENCRY"
+    #     self.trade_coin(currency_code)
+    #
+    # @task
+    # def trade_coin_buy_TESTZ(self):
+    #     currency_code = "TESTZ_USDT_ICNCDE_ENCRY"
+    #     self.trade_coin(currency_code)
 
     @task
     def trade_coin_buy_ATEST(self):
@@ -291,60 +336,60 @@ class HttpTradeCoin(TaskSet):
         currency_code = "OTEST_BTC_ICNCDE_ENCRY"
         self.trade_coin(currency_code)
 
-    @task
-    def trade_coin_buy_PTEST(self):
-        currency_code = "PTEST_BTC_ICNCDE_ENCRY"
-        self.trade_coin(currency_code)
-
-    @task
-    def trade_coin_buy_QTEST(self):
-        currency_code = "QTEST_BTC_ICNCDE_ENCRY"
-        self.trade_coin(currency_code)
-
-    @task
-    def trade_coin_buy_RTEST(self):
-        currency_code = "RTEST_BTC_ICNCDE_ENCRY"
-        self.trade_coin(currency_code)
-
-    @task
-    def trade_coin_buy_STEST(self):
-        currency_code = "STEST_BTC_ICNCDE_ENCRY"
-        self.trade_coin(currency_code)
-
-    @task
-    def trade_coin_buy_TTEST(self):
-        currency_code = "TTEST_BTC_ICNCDE_ENCRY"
-        self.trade_coin(currency_code)
-
-    @task
-    def trade_coin_buy_UTEST(self):
-        currency_code = "UTEST_BTC_ICNCDE_ENCRY"
-        self.trade_coin(currency_code)
-
-    @task
-    def trade_coin_buy_VTEST(self):
-        currency_code = "VTEST_BTC_ICNCDE_ENCRY"
-        self.trade_coin(currency_code)
-
-    @task
-    def trade_coin_buy_WTEST(self):
-        currency_code = "WTEST_BTC_ICNCDE_ENCRY"
-        self.trade_coin(currency_code)
-
-    @task
-    def trade_coin_buy_XTEST(self):
-        currency_code = "XTEST_BTC_ICNCDE_ENCRY"
-        self.trade_coin(currency_code)
-
-    @task
-    def trade_coin_buy_YTEST(self):
-        currency_code = "YTEST_BTC_ICNCDE_ENCRY"
-        self.trade_coin(currency_code)
-
-    @task
-    def trade_coin_buy_ZTEST(self):
-        currency_code = "ZTEST_BTC_ICNCDE_ENCRY"
-        self.trade_coin(currency_code)
+    # @task
+    # def trade_coin_buy_PTEST(self):
+    #     currency_code = "PTEST_BTC_ICNCDE_ENCRY"
+    #     self.trade_coin(currency_code)
+    #
+    # @task
+    # def trade_coin_buy_QTEST(self):
+    #     currency_code = "QTEST_BTC_ICNCDE_ENCRY"
+    #     self.trade_coin(currency_code)
+    #
+    # @task
+    # def trade_coin_buy_RTEST(self):
+    #     currency_code = "RTEST_BTC_ICNCDE_ENCRY"
+    #     self.trade_coin(currency_code)
+    #
+    # @task
+    # def trade_coin_buy_STEST(self):
+    #     currency_code = "STEST_BTC_ICNCDE_ENCRY"
+    #     self.trade_coin(currency_code)
+    #
+    # @task
+    # def trade_coin_buy_TTEST(self):
+    #     currency_code = "TTEST_BTC_ICNCDE_ENCRY"
+    #     self.trade_coin(currency_code)
+    #
+    # @task
+    # def trade_coin_buy_UTEST(self):
+    #     currency_code = "UTEST_BTC_ICNCDE_ENCRY"
+    #     self.trade_coin(currency_code)
+    #
+    # @task
+    # def trade_coin_buy_VTEST(self):
+    #     currency_code = "VTEST_BTC_ICNCDE_ENCRY"
+    #     self.trade_coin(currency_code)
+    #
+    # @task
+    # def trade_coin_buy_WTEST(self):
+    #     currency_code = "WTEST_BTC_ICNCDE_ENCRY"
+    #     self.trade_coin(currency_code)
+    #
+    # @task
+    # def trade_coin_buy_XTEST(self):
+    #     currency_code = "XTEST_BTC_ICNCDE_ENCRY"
+    #     self.trade_coin(currency_code)
+    #
+    # @task
+    # def trade_coin_buy_YTEST(self):
+    #     currency_code = "YTEST_BTC_ICNCDE_ENCRY"
+    #     self.trade_coin(currency_code)
+    #
+    # @task
+    # def trade_coin_buy_ZTEST(self):
+    #     currency_code = "ZTEST_BTC_ICNCDE_ENCRY"
+    #     self.trade_coin(currency_code)
 
     @task
     def trade_coin_eth_ATEST(self):
@@ -361,5 +406,5 @@ class WebsiteUser(HttpUser):
     tasks = [HttpTradeCoin]
 
     min_wait = 100
-    max_wait = 1000
+    max_wait = 500
     host = "http://test.mobile.icctoro.com:7007"

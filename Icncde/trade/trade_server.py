@@ -169,8 +169,7 @@ if __name__ == '__main__':
         # :param user_num: 用户总数
         # :param trade_highly: 单个币对的盘口深度
         # :param amount: 单个委托单的委托数量
-        print(headers_list[i])
         t = threading.Thread(target=TradeCoinSetUpData(c.HOST).one_headers_trade_coin,
-                             args=(headers_list[i], 200, 5, len(headers_list), 5, 1))
+                             args=(headers_list[i], 1000, 100, len(headers_list), 500, 1))
         tasks.append(t)
         t.start()
