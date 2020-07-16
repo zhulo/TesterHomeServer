@@ -88,7 +88,7 @@ class HttpTradeCoin(TaskSet):
 
     def trade_coin_transaction(self, headers, currency_code, side, operate_type, amount, price=None):
         # headers = headers_list[random.randint(0, len(headers_list) - 1)]
-        side_text = "委托买入" if operate_type == 'B' else "委托卖出"
+        side_text = "委托买入" if side == 'B' else "委托卖出"
         operate_type_text = "市价" if operate_type == 'MARKET' else "限价"
 
         if price is None:
