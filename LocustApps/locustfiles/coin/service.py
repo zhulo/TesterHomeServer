@@ -1,4 +1,5 @@
 import copy
+import threading
 
 import requests
 
@@ -8,24 +9,10 @@ from common.utils.logger2 import Logger
 log = Logger(__name__).log()
 
 
-def user_with_currency_code(user_list, currency_code_list):
-    log.info("一共启动 {} 个用户， {} 币对进行压测".format(len(user_list), len(currency_code_list)))
-    user_with_code_list = []
-    for username in user_list:
-        for currency_code in currency_code_list:
-            user_with_code_dict = {}
-            user_with_code_dict[username] = currency_code
-            user_with_code_list.append(user_with_code_dict)
-    log.info(user_with_code_list)
-    log.info('所有用户与币对遍历组合共获得 {} 排列组合，启动对应线程进行初始化盘口数据......'.format(len(user_with_code_list)))
-    return user_with_code_list
-
-
 def get_access_token_with_headers_list(host, api, headers, username, password: str):
     if isinstance(username, list):
-        user_with_headers_dict = []
+        users_headers = []
         for user in username:
-            user_headers = {}
             params = {"loginName": user, "password": password, "validCodeType": "email", "deviceName": "web",
                       "resolution": "1920x1080", "softwareVersion": "1.0.0", "deviceVersion": ""}
             resp = requests.post(url=host + api, headers=headers, data=params)
@@ -34,13 +21,13 @@ def get_access_token_with_headers_list(host, api, headers, username, password: s
                 access_token = response['data']['accessToken']
                 headers = copy.deepcopy(headers)
                 headers['Authorization'] = access_token
-                user_headers[user] = headers
+                headers['user'] = user
                 log.info('获取到用户 {} 的 headers: {}'.format(user, headers))
-                user_with_headers_dict.append(user_headers)
+                users_headers.append(headers)
             else:
                 log.error('获取用户 {} accessToken异常，终止测试'.format(username))
                 return False
-        return user_with_headers_dict
+        return users_headers
     else:
         params = {"loginName": username, "password": password, "validCodeType": "email", "deviceName": "web",
                   "resolution": "1920x1080", "softwareVersion": "1.0.0", "deviceVersion": ""}
@@ -80,33 +67,51 @@ class TradeCoinSetUpData:
             log.error("委托失败,终止测试,接口返回状态: {}, 参数: {}".format(resp.status_code, params))
             return False
 
-    def set_coin_trade_entrust_amount(self, headers, currency_code, best_ask, best_bid, amount):
-        if self.trade_coin(headers, currency_code, 'B', 'LIMIT', best_ask, amount) is False:
-            return False
-        # 卖出
-        if self.trade_coin(headers, currency_code, 'S', 'LIMIT', best_bid, amount) is False:
-            return False
+    def create_coin_orders(self, user_headers_list, orders_nums, currency_code, buy_price, sell_price):
+        '''
+        单个币对的单个盘口的总委托数（单个盘口包括 买入 和 卖出）
+        :param orders_nums: 单个盘口的总订单数
+        :param user_headers_list:
+        :param currency_code:
+        :param buy_price:
+        :param sell_price:
+        :return:
+        '''
+        log.info('用户开始委托买入和卖出，单个盘口进行委托操作, 委托数为 {}'.format(orders_nums))
+        for user in user_headers_list:
+            for i in range(int(orders_nums / len(user_headers_list))):
+                if self.trade_coin(user, currency_code, 'B', 'LIMIT', buy_price, 1) is False: return False
+                if self.trade_coin(user, currency_code, 'S', 'LIMIT', sell_price, 1) is False: return False
+        log.info('用户委托单个盘口的订单数完成，包括买入和卖出')
+
+    def create_coin_height(self, coin_height_nums, orders_nums, user_headers_list, currency_code, init_price):
+        '''
+
+        :param coin_height_nums: 盘口深度，比如200 则卖出深度200，买入也是200
+        :param orders_nums: 单个盘口的深度，如 200 则单个盘口买入委托订单数200，卖出订单数200
+        :param user_headers_list:
+        :param currency_code:
+        :param init_price:
+        :return:
+        '''
+        log.info('用户开始委托盘口深度，买入价格每次 -1 ， 卖出价格每次 + 1')
+        for num in range(1, coin_height_nums + 1):
+            buy_price = init_price - num  # 买入价格
+            sell_price = init_price + num  # 卖出价格
+            if sell_price == 0:
+                log.error('卖出价格递减等于0，跳出循序，终止创建盘口深度，当前币对 {}'.format(currency_code))
+                break
+            if self.create_coin_orders(user_headers_list, orders_nums, currency_code, buy_price,
+                                       sell_price) is False: return False
 
 
-def setup_coin_data(user_list, currency_code_list):
+def reset_coin_thread():
     tasks = []
     headers_list = get_access_token_with_headers_list(c.HOST, c.EmailLoginAPI, c.Headers, c.UsernameList,
                                                       c.Password)
-    for i in user_with_currency_code(user_list, currency_code_list):
-        t = threading.Thread(target=TradeCoinSetUpData(c.HOST).one_headers_trade_coin,
-                             args=(headers_list[i], 500, 20, len(headers_list), 50, 1))
+
+    for currency_code in c.CurrencyCodeList:
+        t = threading.Thread(target=TradeCoinSetUpData().create_coin_height,
+                             args=(c.CoinHeightNums, c.OrdersNums, headers_list, currency_code, c.InitPrice))
         tasks.append(t)
         t.start()
-
-if __name__ == '__main__':
-    user_with_headers_list = get_access_token_with_headers_list(c.HOST, c.EmailLoginAPI, c.Headers, c.UsernameList,
-                                                      c.Password)
-    user_with_currency_code_list = user_with_currency_code(c.UsernameList, c.CurrencyCodeList)
-    from pprint import pprint
-    pprint(user_with_headers_list)
-    for user,headers in user_with_headers_list.items():
-        for user_with_currency_dict in user_with_currency_code_list:
-            if user == user_with_currency_dict.keys():
-                TradeCoinSetUpData().trade_coin(headers,)
-
-
