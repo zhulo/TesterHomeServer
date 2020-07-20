@@ -19,10 +19,14 @@ UsernameList = ['open0001@qq.com', 'open0002@qq.com', 'open0003@qq.com', 'open00
 #     'JTEST_BTC_ICNCDE_ENCRY', 'KTEST_BTC_ICNCDE_ENCRY', 'LTEST_BTC_ICNCDE_ENCRY', 'MTEST_BTC_ICNCDE_ENCRY',
 #     'NTEST_BTC_ICNCDE_ENCRY', 'OTEST_BTC_ICNCDE_ENCRY', 'TESTA_ETH_ICNCDE_ENCRY', 'ATEST_ETH_ICNCDE_ENCRY'
 # ]
-
-
 CurrencyCodeList = [
-    'TESTX_USDT_ICNCDE_ENCRY', 'TESTL_USDT_ICNCDE_ENCRY', 'TESTI_USDT_ICNCDE_ENCRY', 'TESTQ_USDT_ICNCDE_ENCRY']
+    'TESTA_USDT_ICNCDE_ENCRY'
+]
+
+Debug = True
+MinWait = 1000
+MaxWait = 5000
+
 
 '''造数据初始条件'''
 CoinHeightNums = 50  # 盘口高度 深度

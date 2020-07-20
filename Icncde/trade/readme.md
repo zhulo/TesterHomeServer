@@ -45,9 +45,12 @@ supervisorctl stop icc-trade-coin-web
 supervisorctl stop icc-trade-coin-app-service
 supervisorctl stop icc-market-coin-web-socket
 supervisorctl stop icc-match-app-service
+supervisorctl stop icc-market-coin-app-service 
 ```
 - 第二步：清除数据
 ```sql
+TRUNCATE icc_market.spot_kline; -- 画线
+
 TRUNCATE coin_capital_freeze_water ;
 TRUNCATE coin_capital_water;
 TRUNCATE coin_deal_onway_capital;
@@ -78,6 +81,7 @@ supervisorctl start icc-market-coin-web-socket
 supervisorctl start icc-trade-coin-app-service
 supervisorctl start icc-trade-coin-web
 supervisorctl start icc-match-app-service
+supervisorctl start icc-market-coin-app-service 
 
 -- 重启
 supervisorctl restart icc-trade-coin-app-service

@@ -105,12 +105,9 @@ class TradeCoinSetUpData:
                                        sell_price) is False: return False
 
 
-def reset_coin_thread():
+def reset_coin_thread(headers_list, currency_code_list):
     tasks = []
-    headers_list = get_access_token_with_headers_list(c.HOST, c.EmailLoginAPI, c.Headers, c.UsernameList,
-                                                      c.Password)
-
-    for currency_code in c.CurrencyCodeList:
+    for currency_code in currency_code_list:
         t = threading.Thread(target=TradeCoinSetUpData().create_coin_height,
                              args=(c.CoinHeightNums, c.OrdersNums, headers_list, currency_code, c.InitPrice))
         tasks.append(t)
